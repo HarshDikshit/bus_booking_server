@@ -1,49 +1,46 @@
-import dotenv from 'dotenv'
-import express from 'express'
-import cors from 'cors'
-import connectDB from './config/connect.js'
-import { PORT } from './config/config.js'
-import userRoutes from './routes/user.js'
-import busRoutes from './routes/bus.js'
-import ticketRoutes from './routes/ticket.js'
-import { buildAdminJS } from './config/setup.js'
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/connect.js';
+import { PORT } from './config/config.js';
+import userRoutes from './routes/user.js';
+import busRoutes from './routes/bus.js';
+import ticketRoutes from './routes/ticket.js';
+import { buildAdminJS } from './config/setup.js';
 
+dotenv.config();
+const app = express();
 
-dotenv.config()
-const app = express()
-
+// CORS configuration
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowHeaders: ['Content-Type', 'Authorization']
-}
+    allowHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
-app.use(cors(corsOptions))
+app.use(express.json());
 
-app.use(express.json())
-
-//Routes
+// Routes
 app.use('/user', userRoutes);
 app.use('/bus', busRoutes);
 app.use('/ticket', ticketRoutes);
 
-app.get('/', (req, res)=> res.send("hi from home"))
+app.get('/', (req, res) => res.send('hi from home'));
 
-const start = async () => {
+// Initialize database and AdminJS
+const initializeApp = async () => {
     try {
-        connectDB(process.env.MONGO_URI)
+        await connectDB(process.env.MONGO_URI);
         await buildAdminJS(app);
-        app.listen({port: PORT, host: '0.0.0.0'}, (err, addr)=>{
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(`Server started on http://localhost:${PORT}/admin`);
-            }
-        })
+        console.log('Database and AdminJS initialized');
     } catch (error) {
-        console.log('Error Starting Server', error);
-        
+        console.error('Error initializing app:', error);
     }
-}
+};
 
-start()
+// Run initialization
+initializeApp();
+
+// Export the app for Vercel
+export default app;
