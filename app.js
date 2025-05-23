@@ -31,13 +31,13 @@ const start = async () => {
     try {
         connectDB(process.env.MONGO_URI)
         await buildAdminJS(app);
-        app.listen({port: PORT, host: '0.0.0.0'}, (err, addr)=>{
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(`Server started on http://localhost:${PORT}/admin`);
-            }
-        })
+        // app.listen({port: PORT, host: '0.0.0.0'}, (err, addr)=>{
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         console.log(`Server started on http://localhost:${PORT}/admin`);
+        //     }
+        // })
     } catch (error) {
         console.log('Error Starting Server', error);
         
@@ -45,3 +45,5 @@ const start = async () => {
 }
 
 start()
+
+module.exports = app;
