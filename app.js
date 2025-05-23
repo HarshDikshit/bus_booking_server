@@ -27,6 +27,8 @@ app.use('/user', userRoutes);
 app.use('/bus', busRoutes);
 app.use('/ticket', ticketRoutes);
 
+app.get('/', (req, res)=> res.send("hi from home"))
+
 const start = async () => {
     try {
         connectDB(process.env.MONGO_URI)
@@ -45,5 +47,3 @@ const start = async () => {
 }
 
 start()
-
-module.exports = app;
