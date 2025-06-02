@@ -7,7 +7,7 @@ import { PORT } from '../config/config.js'
 import userRoutes from '../routes/user.js'
 import busRoutes from '../routes/bus.js'
 import ticketRoutes from '../routes/ticket.js'
-import { buildAdminJS } from '../config/setup.js'
+// import { buildAdminJS } from '../config/setup.js'
 
 
 dotenv.config()
@@ -33,7 +33,7 @@ app.get('/', (req, res)=> res.send("hi from home"))
 const start = async () => {
     try {
         connectDB(process.env.MONGO_URI)
-        await buildAdminJS(app);
+        // await buildAdminJS(app);
         app.listen({port: PORT, host: '0.0.0.0'}, (err, addr)=>{
             if (err) {
                 console.log(err);
