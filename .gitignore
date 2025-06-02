@@ -1,7 +1,9 @@
 # OSX
 #
 .DS_Store
-
+#env
+./bus_booking server/.env
+.env
 # Xcode
 #
 build/
